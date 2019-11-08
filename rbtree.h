@@ -20,7 +20,7 @@ class Node
 {
 public:
     KeyType* key;
-    bool isRed; //true == red; false == black
+    bool isRed = true; //true == red; false == black
     Node<KeyType>* left;
     Node<KeyType>* right;
     Node<KeyType>* parent;

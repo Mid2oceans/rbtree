@@ -153,7 +153,7 @@ void rbtree<KeyType> :: insert(KeyType* k) {
   Node<KeyType>* z = new Node<KeyType>(*k);
   Node<KeyType>* y = NULL;
   Node<KeyType>* x = root;
-  while(x!=NULL){ //this goes down the tree to find the node's place 
+  while(x!=NULL){ //this goes down the tree to find the node's place
     y = x;
     if( *z < *x ){ //if smaller go left
       x = x->left;
@@ -162,7 +162,7 @@ void rbtree<KeyType> :: insert(KeyType* k) {
       x = x->right;
     }
   }
-  z->parent = y; 
+  z->parent = y;
   if (y==NULL){ //if y is empty means the list was empty so the root needs to be z
     root = z;
   }
@@ -180,16 +180,18 @@ void rbtree<KeyType> :: insert(KeyType* k) {
 
 template<class KeyType>
 void rbtree<KeyType>:: rbInsertFixUp(Node<KeyType>* z){
-  while (z->parent->isRed){
+  while (z->parent->isRed){ //LOOP is not ending and getting a seg fault
     if(z->parent->parent!= NULL && z->parent->parent->left!= NULL){ //The grandparent and uncle need to exist in order for this to run
-      if (z->parent == z->parent->parent->left){ // if z's parent is a left child 
+      //CASE 1
+      if (z->parent == z->parent->parent->left){ // if z's parent is a left child
         Node<KeyType>* y = z->parent->parent->right; //y is z's uncle
         if (y->isRed){
           z->parent->isRed = false;
           y->isRed = false;
           z->parent->parent->isRed = true;
           z = z->parent->parent;
-        }else{
+        }
+        else{
           if (z == z->parent->right){
             z = z->parent;
             leftRotation(z);
@@ -198,14 +200,17 @@ void rbtree<KeyType>:: rbInsertFixUp(Node<KeyType>* z){
           z->parent->parent->isRed = true;
           rightRotation(z);
         }
-      }else{      // is z's parent is a right child
+      }
+      //CASE 2
+      else{      // is z's parent is a right child
         Node<KeyType>* y = z->parent->parent->left; //y is z's uncle
         if (y->isRed){
           z->parent->isRed = false;
           y->isRed = false;
           z->parent->parent->isRed = true;
           z = z->parent->parent;
-        }else{
+        }
+        else{
           if (z == z->parent->left){
             z = z->parent;
             rightRotation(z);
@@ -216,8 +221,11 @@ void rbtree<KeyType>:: rbInsertFixUp(Node<KeyType>* z){
         }
       }
     }
-    this->root->isRed = false;
+    if(z->parent ==NULL ){
+      break;
+    }
   }
+    this->root->isRed = false;
 }
 
 template<class KeyType>
