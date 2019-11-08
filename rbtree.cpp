@@ -176,11 +176,12 @@ void rbtree<KeyType> :: insert(KeyType* k) {
     z->isRed = true;
     rbInsertFixUp(z);
   }
+
 }
 
 template<class KeyType>
 void rbtree<KeyType>:: rbInsertFixUp(Node<KeyType>* z){
-  while (z->parent->isRed){ //LOOP is not ending and getting a seg fault
+  while (z->parent->isRed){
     if(z->parent->parent!= NULL && z->parent->parent->left!= NULL){ //The grandparent and uncle need to exist in order for this to run
       //CASE 1
       if (z->parent == z->parent->parent->left){ // if z's parent is a left child
@@ -201,7 +202,6 @@ void rbtree<KeyType>:: rbInsertFixUp(Node<KeyType>* z){
           rightRotation(z);
         }
       }
-      //CASE 2
       else{      // is z's parent is a right child
         Node<KeyType>* y = z->parent->parent->left; //y is z's uncle
         if (y->isRed){
@@ -209,6 +209,9 @@ void rbtree<KeyType>:: rbInsertFixUp(Node<KeyType>* z){
           y->isRed = false;
           z->parent->parent->isRed = true;
           z = z->parent->parent;
+          if(z->parent==NULL){
+            break;
+          }
         }
         else{
           if (z == z->parent->left){
@@ -221,11 +224,8 @@ void rbtree<KeyType>:: rbInsertFixUp(Node<KeyType>* z){
         }
       }
     }
-    if(z->parent ==NULL ){
-      break;
-    }
-  }
     this->root->isRed = false;
+  }
 }
 
 template<class KeyType>
