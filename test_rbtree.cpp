@@ -20,10 +20,10 @@ int main()
     tree1.insert(&b);
     tree1.insert(&c);
     tree1.insert(&d);
-    tree1.insert(&e);
-    tree1.insert(&f);
-    tree1.insert(&g);
-    tree1.insert(&h);
+    // tree1.insert(&e);
+    // tree1.insert(&f);
+    // tree1.insert(&g);
+    // tree1.insert(&h);
     // tree1.insert(&i);
 
 
